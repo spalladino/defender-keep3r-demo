@@ -1,0 +1,26 @@
+{
+  "name": "defender-keep3r-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "simple-keeper": "node src/simple-keeper.js",
+    "autoregister-keeper": "node src/autoregister-keeper.js",
+    "deploy": "buidler run scripts/deploy.js --network rinkeby",
+    "request-work": "buidler run scripts/request-work.js --network rinkeby"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@nomiclabs/buidler": "^1.4.7",
+    "@nomiclabs/buidler-ethers": "^2.0.0",
+    "@openzeppelin/buidler-upgrades": "^1.0.2",
+    "@openzeppelin/contracts": "^3.2.0",
+    "axios": "^0.20.0",
+    "chai": "^4.2.0",
+    "defender-relay-client": "^0.2.7",
+    "dotenv": "^8.2.0",
+    "ethers": "^5.0.13"
+  }
+}
