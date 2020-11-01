@@ -13,3 +13,15 @@ API_KEY=Eq..... // Create a relayer at oz defender: https://defender.openzeppeli
 
 API_SECRET=FW.......
 ```
+
+
+## Demo
+
+```sh
+$ npm run simple-keeper
+```
+
+
+```
+$ npm run autoregister-keeper
+```
