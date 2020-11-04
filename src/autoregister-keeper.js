@@ -1,57 +1,90 @@
-require('dotenv').config();
-
-const registryAbi = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"keeper","type":"address"},{"indexed":false,"internalType":"uint256","name":"block","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"activated","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bond","type":"uint256"}],"name":"KeeperBonded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"keeper","type":"address"},{"indexed":false,"internalType":"uint256","name":"block","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"active","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bond","type":"uint256"}],"name":"KeeperBonding","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"keeper","type":"address"},{"indexed":false,"internalType":"uint256","name":"block","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"deactive","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bond","type":"uint256"}],"name":"KeeperUnbonding","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"keeper","type":"address"},{"indexed":false,"internalType":"uint256","name":"block","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"deactivated","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bond","type":"uint256"}],"name":"KeeperUnbound","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"credit","type":"address"},{"indexed":true,"internalType":"address","name":"job","type":"address"},{"indexed":true,"internalType":"address","name":"keeper","type":"address"},{"indexed":false,"internalType":"uint256","name":"block","type":"uint256"}],"name":"KeeperWorked","type":"event"},{"inputs":[],"name":"BOND","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"LIQUIDITYBOND","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"UNBOND","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"}],"name":"activate","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"blacklist","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"bond","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"bondings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"bonds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"firstSeen","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getKeepers","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"keeper","type":"address"}],"name":"isKeeper","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"keeperList","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"keepers","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lastJob","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"partialUnbonding","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"pendingbonds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalBonded","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"unbond","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"unbondings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"votes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-const workableAbi = [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"worker","type":"address"}],"name":"Worked","type":"event"},{"inputs":[],"name":"requestWork","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"work","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"workable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}];
-
-const registryAddr = '0x08829D79f73e0a152a9AB5ee0fa955091055d46F';
-const workableAddr = '0xB4d258b63b1937e3442BD98Db745750E05432f37';
-const from = process.env.RINKEBY_PUBLIC_ADDR;
-
-const collateralAddr = '0x08829D79f73e0a152a9AB5ee0fa955091055d46F';
-const collateralAmount = '0x0de0b6b3a7640000';
-
 const { ethers } = require("ethers");
 const { DefenderRelaySigner } = require('defender-relay-client/lib/ethers');
 
-async function workIfNeeded(contract) {
-  if (await contract.workable()) {
-    const tx = await contract.work();
-    console.log(`Worked ${contract.address}:`, tx.hash);
+// ABIs for jobs and registry (contain only the methods needed, not the full ABIs of the contracts)
+const ABIs = {
+  UniswapOracleV2: [{"inputs":[],"name":"updateable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"work","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+  HegicPoolKeep3r: [{"inputs":[],"name":"workable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"claimRewards","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+  YearnV1EarnKeep3r: [{"inputs":[],"name":"work","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"workable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}],
+  Registry: [{"inputs":[{"internalType":"address","name":"keeper","type":"address"}],"name":"isKeeper","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"bond","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"bondings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"bonding","type":"address"}],"name":"activate","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+}
+
+// Definition for all jobs to execute
+const Jobs = [
+  { name: 'UniswapOracleV2',   address: '0x127a2975c4E1c75f1ed4757a861bbd42523DB035', workableFn: 'updateable', workFn: 'work' },
+  { name: 'HegicPoolKeep3r',   address: '0x5DDe926b0A31346f2485900C5e64c2577F43F774', workableFn: 'workable',   workFn: 'claimRewards' },
+  { name: 'YearnV1EarnKeep3r', address: '0xe7F4ab593aeC81EcA754Da1B3B7cE0C42a13Ec0C', workableFn: 'workable',   workFn: 'work' },
+];
+
+// Address for the Keeper registry
+const RegistryAddress = '0x08829D79f73e0a152a9AB5ee0fa955091055d46F';
+
+// Work on jobs if it's needed using a Defender relay signer
+async function workIfNeeded(signer, jobs) {
+  for (const job of jobs) {
+    const contract = new ethers.Contract(job.address, ABIs[job.name], signer);
+    if (await contract[job.workableFn]()) {
+      console.log(`${job.name} is workable`);
+      const tx = await contract[job.workFn]();
+      console.log(`${job.name} worked: ${tx.hash}`);
+    } else {
+      console.log(`${job.name} is not workable`);
+    }
+  }
+}
+
+// Register the Defender relay as a keep3r
+async function registerKeeper(signer, registry) {
+  const keeperAddress = await signer.getAddress();
+  const collateralAddress = registry.address;
+  const bonding = await registry.bondings(keeperAddress, collateralAddress);
+
+  if (bonding.isZero()) {
+    // Bond with zero KPR tokens
+    const collateralAmount = '0x00';
+    const tx = await registry.bond(collateralAddress, collateralAmount);
+    console.log(`Bonded relayer: ${tx.hash}`);
+  } else if (bonding.lt(parseInt(Date.now() / 1000))) {
+    // Activate if 3-day waiting period has finished
+    const tx = await registry.activate(collateralAddress);
+    console.log(`Activated relayer: ${tx.hash}`);
   } else {
-    console.log(`No work needed for ${contract.address}`);
+    // Wait until can activate
+    const waitInSeconds = bonding.sub(parseInt(Date.now() / 1000)).toString();
+    console.log(`Waiting ${waitInSeconds} seconds until activation is available`);
+  }
+}
+
+// Main function
+async function main(signer, jobs, registryAddress) {
+  const keeperAddress = await signer.getAddress();
+  const registry = new ethers.Contract(registryAddress, ABIs.Registry, signer);
+  
+  // Work if this is a registered keeper, or register it otherwise
+  if (await registry.isKeeper(keeperAddress)) {
+    await workIfNeeded(signer, jobs);
+  } else {
+    await registerKeeper(signer, registry);
   }
 }
 
 // Entrypoint for the Autotask
 exports.handler = async function(credentials) {
   const provider = ethers.getDefaultProvider('rinkeby');
-  const signer = new DefenderRelaySigner(credentials, provider, { speed: 'fastest', from });
-  const registry = new ethers.Contract(registryAddr, registryAbi, signer);
-  const contract = new ethers.Contract(workableAddr, workableAbi, signer);
-
-  // Work if is a registered keeper
-  if (await registry.isKeeper(from)) {
-    return await workIfNeeded(contract);
-  }
-
-  // Otherwise run through bonding and activation process
-  const bonding = await registry.bondings(from, collateralAddr).then(b => b.toNumber());
-  if (bonding === 0) {
-    const tx = await registry.bond(collateralAddr, collateralAmount);
-    console.log(`Bonded relayer: ${tx.hash}`);
-  } else if (bonding < Date.now() / 1000) {
-    const tx = await registry.activate(collateralAddr);
-    console.log(`Activated relayer: ${tx.hash}`);
-    await workIfNeeded(contract);
-  } else {
-    console.log(`Waiting ${bonding - parseInt(Date.now() / 1000)} seconds until activation is available`);
-  }
+  const signer = new DefenderRelaySigner(credentials, provider, { speed: 'fastest' });
+  return await main(signer, Jobs, RegistryAddress);
 }
+
+// Exported for unit testing
+exports.main = main;
+exports.Jobs = Jobs;
 
 // To run locally (this code will not be executed in Autotasks)
 if (require.main === module) {
+  require('dotenv').config();
   const { API_KEY: apiKey, API_SECRET: apiSecret } = process.env;
   exports.handler({ apiKey, apiSecret })
     .then(() => process.exit(0))
     .catch(error => { console.error(error); process.exit(1); });
 }
+

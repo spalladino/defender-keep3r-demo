@@ -16,7 +16,9 @@ exports.handler = async function(credentials) {
   // Run work if needed
   if (await contract.workable()) {
     const tx = await contract.work();
-    console.log(tx.hash);
+    console.log(`Worked:`, tx.hash);
+  } else {
+    console.log(`No work needed`);
   }
 }
 

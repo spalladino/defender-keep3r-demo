@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 usePlugin("@nomiclabs/buidler-ethers");
+usePlugin("@nomiclabs/buidler-waffle");
 usePlugin("@openzeppelin/buidler-upgrades");
 
 // This is a sample Buidler task. To learn how to create your own go to
@@ -22,11 +23,8 @@ module.exports = {
   solc: {
     version: "0.6.12",
   },
-  defaultNetwork: 'local',
+  defaultNetwork: 'buidlerevm',
   networks: {
-    local: {
-      url: 'http://localhost:8545'
-    },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: [process.env.RINKEBY_PRIVATE_KEY],
