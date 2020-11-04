@@ -34,14 +34,14 @@ describe("autoregister-keeper", function() {
     await ethers.provider.send('evm_increaseTime', [10]);
     mockdate.set(Date.now() + 10 * 1000);
     await run();
-    expect(await registry.isKeeper(keeperAddress)).to.be.false;
+    expect(await registry.keepers(keeperAddress)).to.be.false;
   });
 
   it("activates once period is over", async function () {
     await ethers.provider.send('evm_increaseTime', [650]);
     mockdate.set(Date.now() + 650 * 1000);
     await run();
-    expect(await registry.isKeeper(keeperAddress)).to.be.true;
+    expect(await registry.keepers(keeperAddress)).to.be.true;
   });
 
   it("skips if there is no work to be done for any job", async function () {

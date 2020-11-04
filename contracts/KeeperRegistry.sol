@@ -69,15 +69,6 @@ contract KeeperRegistry {
         }
     }
 
-        /**
-     * @notice confirms if the current keeper is registered, can be used for general (non critical) functions
-     * @param keeper the keeper being investigated
-     * @return true/false if the address is a keeper
-     */
-    function isKeeper(address keeper) external view returns (bool) {
-        return keepers[keeper];
-    }
-
     /**
      * @notice begin the bonding process for a new keeper
      * @param bonding the asset being bound
