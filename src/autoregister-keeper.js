@@ -70,7 +70,7 @@ async function main(signer, jobs, registryAddress) {
 
 // Entrypoint for the Autotask
 exports.handler = async function(credentials) {
-  const provider = ethers.getDefaultProvider('rinkeby');
+  const provider = ethers.getDefaultProvider();
   const signer = new DefenderRelaySigner(credentials, provider, { speed: 'fastest' });
   return await main(signer, Jobs, RegistryAddress);
 }
