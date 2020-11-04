@@ -8,13 +8,14 @@
     "autoregister-keeper": "node src/autoregister-keeper.js",
     "deploy": "buidler run scripts/deploy.js --network rinkeby",
     "request-work": "buidler run scripts/request-work.js --network rinkeby",
+    "compile": "buidler compile",
     "test": "buidler test"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "defender-relay-client": "^0.2.7",
+    "defender-relay-client": "1.0.1",
     "ethers": "^5.0.13"
   },
   "devDependencies": {

@@ -2502,10 +2502,10 @@ deepmerge@^2.1.0:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
   integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
 
-defender-relay-client@^0.2.7:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/defender-relay-client/-/defender-relay-client-0.2.8.tgz#8971d774d4a8c721983cbb7a3005002c22c08162"
-  integrity sha512-QFW2RpxnTNg+a1EZahp6c/tpBEYSSD8xFCb9sviRrTRNsJYhNyED7OXnbDnvKBjoUpmYMGNqbjGH/pF2bJiZuA==
+defender-relay-client@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/defender-relay-client/-/defender-relay-client-1.0.1.tgz#6d8d6c4439024756bb88f8a725a7f51e65e1a3bf"
+  integrity sha512-6vhPKHnvHKl678KgiHnqha9RSvl4MLDPkZkYS+4XR6M7298h/xehopD2Qr9fcnh1BM7TtESffsXC91LgVl8z2A==
   dependencies:
     amazon-cognito-identity-js "^4.3.3"
     axios "^0.19.2"
